@@ -31,13 +31,13 @@ def light_check(scf):
 def take_off(scf):
     commander= scf.cf.high_level_commander
 
-    commander.takeoff(1.25, 3.0)
+    commander.takeoff(1.5, 3.0)
     time.sleep(3)
 
 def land(scf):
     commander= scf.cf.high_level_commander
 
-    commander.land(0.0, 3.0)
+    commander.land(0.0, 6.0)
     time.sleep(4)
 
     commander.stop()
@@ -115,6 +115,124 @@ def run_square_sequence(scf):
     time.sleep(flight_time)
 
 #####################################
+
+def square_motion(scf):
+    flight_time = 2.0   # slower helps stability
+    altitude    = 1.5 # match your take-off height
+    sleep_time = 3.0
+
+    
+    x_01, y_01 = 0.50, 0.50    # Position of the drone1 drone 01 (x, y). Drone moves to -> (x_01, y_01)
+    x_02, y_02 = 2.0, 0.50    # Position of the second drone 02 (x, y). Drone moves to -> (x_02, y_02)
+    x_03, y_03 = 0.50, 2.0    # Position of the first drone 03 (x, y). Drone moves to -> (x_01, y_01)
+    x_04, y_04 = 2.0, 2.0
+
+    commander = scf.cf.high_level_commander
+    uri = scf.cf.link_uri
+    drone1 = uri.endswith('E7E7E7E701')
+    drone3 = uri.endswith('E7E7E7E703')
+    drone4 = uri.endswith('E7E7E7E704')
+    drone6 = uri.endswith('E7E7E7E706')
+
+
+    if drone1:
+
+        # Position the first drone
+        ################################################################
+        commander.go_to(x_01, y_01, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+
+        ################################################################
+        # First drone performs a square sequence
+        ################################################################
+        commander.go_to(x_02, y_02, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_04, y_04, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_03, y_03, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_01, y_01, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+    elif drone3:
+
+        # Position the second drone
+        ################################################################
+        commander.go_to(x_02, y_02, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+       
+        ################################################################
+        # Second drone performs a square sequence
+        ################################################################
+        commander.go_to(x_04, y_04, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_03, y_03, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_01, y_01, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_02, y_02, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+
+
+    elif drone6:
+
+        # Position the second drone
+        ################################################################
+        commander.go_to(x_03, y_03, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+       
+        ################################################################
+        # Second drone performs a square sequence
+        ################################################################
+        commander.go_to(x_01, y_01, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_02, y_02, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_04, y_04, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_03, y_03, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+    
+    elif drone4:
+
+        # Position the second drone
+        ################################################################
+        commander.go_to(x_04, y_04, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+       
+        ################################################################
+        # Second drone performs a square sequence
+        ################################################################
+
+        commander.go_to(x_03, y_03, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_01, y_01, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_02, y_02, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+        commander.go_to(x_04, y_04, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+    time.sleep(2)  # Wait for the drones to settle down after the sequence
+
+   
     
 
 
@@ -122,18 +240,23 @@ def run_square_sequence(scf):
 def run_square_sequence_absolute(scf):
 
     flight_time = 2.0   # slower helps stability
-    altitude    = 1.25 # match your take-off height
+    altitude    = 1.5 # match your take-off height
     sleep_time = 4.0
 
     commander = scf.cf.high_level_commander
     uri = scf.cf.link_uri
-    up_first = uri.endswith('E7E7E7E701')
+    drone1 = uri.endswith('E7E7E7E701')
+    drone2 = uri.endswith('E7E7E7E702')
+    drone3 = uri.endswith('E7E7E7E703')
+    drone4 = uri.endswith('E7E7E7E704')
 
-    x_01, y_01 = 0.45, 0.30    # Position of the first drone 01 (x, y). Drone moves to -> (x_01, y_01)
-    x_02, y_02 = 0.45, 1.0     # Position of the second drone 02 (x, y). Drone moves to -> (x_02, y_02)
+    x_01, y_01 = 0.50, 0.50    # Position of the drone1 drone 01 (x, y). Drone moves to -> (x_01, y_01)
+    x_02, y_02 = 1.5, 0.50    # Position of the second drone 02 (x, y). Drone moves to -> (x_02, y_02)
+    x_03, y_03 = 1.5, 1.5    # Position of the first drone 03 (x, y). Drone moves to -> (x_01, y_01)
+    x_04, y_04 = 0.5, 1.5
     square_edge = 0.60         # Length of the square's edge
 
-    if up_first:
+    if drone1:
 
         # Position the first drone
         ################################################################
@@ -156,7 +279,7 @@ def run_square_sequence_absolute(scf):
         commander.go_to(x_01, y_01, altitude, 0, flight_time, relative=False)
         time.sleep(flight_time)
 
-    else:
+    elif drone2:
 
         # Position the second drone
         ################################################################
@@ -179,12 +302,64 @@ def run_square_sequence_absolute(scf):
         commander.go_to(x_02, y_02, altitude, 0, flight_time, relative=False)
         time.sleep(flight_time)
 
+    elif drone3:
+
+        # Position the second drone
+        ################################################################
+        commander.go_to(x_03, y_03, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+       
+        ################################################################
+        # Second drone performs a square sequence
+        ################################################################
+        commander.go_to(x_03 - square_edge, y_03, altitude, 0, flight_time, relative=False)
+        time.sleep(flight_time)
+
+        commander.go_to(x_03 - square_edge, y_03 - square_edge, altitude, 0, flight_time, relative=False)
+        time.sleep(flight_time)
+
+        commander.go_to(x_03, y_03 - square_edge, altitude, 0, flight_time, relative=False)
+        time.sleep(flight_time)
+
+        commander.go_to(x_03, y_03, altitude, 0, flight_time, relative=False)
+        time.sleep(flight_time)
+    
+    elif drone4:
+
+        # Position the second drone
+        ################################################################
+        commander.go_to(x_04, y_04, altitude, 0, flight_time, relative=False)
+        time.sleep(sleep_time)
+
+       
+        ################################################################
+        # Second drone performs a square sequence
+        ################################################################
+        commander.go_to(x_04, y_04 - square_edge, altitude, 0, flight_time, relative=False)
+        time.sleep(flight_time)
+
+        commander.go_to(x_04 + square_edge, y_04 - square_edge, altitude, 0, flight_time, relative=False)
+        time.sleep(flight_time)
+
+        commander.go_to(x_04 + square_edge, y_04, altitude, 0, flight_time, relative=False)
+        time.sleep(flight_time)
+
+        commander.go_to(x_04, y_04, altitude, 0, flight_time, relative=False)
+        time.sleep(flight_time)
+
     time.sleep(2)  # Wait for the drones to settle down after the sequence
 
 
 uris = {
-    'radio://0/20/2M/E7E7E7E701',
-    'radio://0/20/2M/E7E7E7E703'
+    'radio://0/80/2M/E7E7E7E701',
+
+    'radio://0/80/2M/E7E7E7E703',
+
+    'radio://1/80/2M/E7E7E7E704',
+
+    'radio://1/80/2M/E7E7E7E706',
+
     # Add more URIs if you want more copters in the swarm
     # URIs in a swarm using the same radio must also be on the same channel
 }
@@ -196,12 +371,12 @@ if __name__ == '__main__':
         print('Connected to Crazyflies')
 
         #### Reset Kalman estimator for all drones. Though not necessary for absolute positioning. Only reset for relative movement. ####
-        # print('Resetting estimators...')
-        # swarm.reset_estimators()
-        # print('Done resetting estimators')
-        #time.sleep(3)   
+        print('Resetting estimators...')
+        swarm.reset_estimators()
+        print('Done resetting estimators')
+        time.sleep(3)   
 
         swarm.parallel_safe(take_off)
-        time.sleep(3)
-        swarm.parallel_safe(run_square_sequence_absolute)
+        time.sleep(2)
+        swarm.parallel_safe(square_motion)
         swarm.parallel_safe(land)

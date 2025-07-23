@@ -25,12 +25,12 @@ def take_off(scf):
     commander= scf.cf.high_level_commander
 
     commander.takeoff(1.25, 3.0)
-    time.sleep(3)
+    time.sleep(10)
 
 def land(scf):
     commander= scf.cf.high_level_commander
 
-    commander.land(0.0, 3.0)
+    commander.land(0.0, 4.0)
     time.sleep(2)
 
     commander.stop()
@@ -40,7 +40,7 @@ def hover_sequence(scf):
     land(scf)
 
 def run_square_sequence(scf):
-    box_size = 0.50
+    box_size = 1.5
     flight_time = 2
 
     commander= scf.cf.high_level_commander
@@ -60,10 +60,10 @@ def run_square_sequence(scf):
 def run_square_sequence_absolute(scf):
 
     flight_time = 2.0   # slower helps stability
-    altitude    = 1.25 # match your take-off height
+    altitude    = 1.0 # match your take-off height
     sleep_time = 2.0
     sleep_time_in = 4.0 # time to wait before starting the sequence
-    x_01, y_01 = 0.30, 0.30     # Position of the first drone 01 (x, y)
+    x_01, y_01 = 1.0, 1.0     # Position of the first drone 01 (x, y)
     square_edge = 1.0 # Length of the square's edge
 
     commander = scf.cf.high_level_commander
@@ -132,7 +132,7 @@ def reset_estimator(scf):
     scf.cf.param.set_value('kalman.resetEstimation', '0')
     time.sleep(2.0)
 
-uris = 'radio://0/20/2M/E7E7E7E701'
+uris = 'radio://0/60/2M/E7E7E7E708'
     # Add more URIs if you want more copters in the swarm
     # URIs in a swarm using the same radio must also be on the same channel
 
@@ -143,11 +143,11 @@ if __name__ == '__main__':
     with SyncCrazyflie(uris, cf=Crazyflie(rw_cache='./cache')) as scf:
         print('Connected to  Crazyflies')
         # swarm.parallel_safe(light_check)
-        # print('Resetting estimator')
-        # reset_estimator(scf)
-        # print('Estimators reset, arming motors!')
+        print('Resetting estimator')
+        reset_estimator(scf)
+        print('Estimators reset, arming motors!')
 
         take_off(scf)
-        run_square_sequence_absolute(scf)
+        # run_square_sequence(scf)
         # updown_funk(scf)
         land(scf)
