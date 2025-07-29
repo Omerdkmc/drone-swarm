@@ -134,7 +134,6 @@ def run_single_spring():
             acc = force / mass
             velocity += acc * DT
             cf.commander.send_hover_setpoint(velocity[0], velocity[1], 0, HOVER_HEIGHT)
-            print(f"Position: {position}, Velocity: {velocity}, Force: {force}")
             data_log.append([now, position[0], position[1], force[0], force[1]])
             time.sleep(DT)
 
