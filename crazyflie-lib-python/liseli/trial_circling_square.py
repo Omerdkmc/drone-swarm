@@ -60,9 +60,9 @@ URI4 = 'radio://1/60/2M/E7E7E7E708'
 # URI8 = 'radio://0/60/2M/E7E7E7E717'
 
 # The trajectory to fly
-a = 0.7  # where the Beizer curve control point should be https://spencermortensen.com/articles/bezier-circle/
+a = 0.55  # where the Beizer curve control point should be https://spencermortensen.com/articles/bezier-circle/
 h = 1.0  # [m] how high we should fly
-t = 2.0  # seconds per step, one circle has 4 steps
+t = 4.0  # seconds per step, one circle has 4 steps
 r1 = 1.75  # [m] the radius for all drones
 r2 = 1.75  # [m] keep consistent, not used
 center_x = 2.05
