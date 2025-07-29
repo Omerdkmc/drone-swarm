@@ -14,7 +14,7 @@ import imageio
 uri='radio://0/60/2M/E7E7E7E707'
 DT = 0.1  # saniye
 HOVER_HEIGHT = 1.5
-DURATION = 45
+DURATION = 20
 k = 0.1
 b=0.0325 # damping coefficient
 mass = 0.035
@@ -138,8 +138,7 @@ def run_single_spring():
             time.sleep(DT)
 
         # Stabilize at center before landing
-        print("Stabilizing before landing...")
-        cf.commander.send_hover_setpoint(0, 0, 0, HOVER_HEIGHT)
+        cf.commander.send_notify_setpoint_stop()
         cf.high_level_commander.go_to(center[0], center[1], HOVER_HEIGHT, 0, 2.0)
         time.sleep(2.0)
 
