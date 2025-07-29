@@ -16,11 +16,11 @@ URIS = [
 ]
 
 # Simulation parameters
-DT = 0.2           # timestep (s)
+DT = 0.12           # timestep (s)
 DURATION = 30      # total simulation time (s)
 HOVER_HEIGHT = 1.25  # fixed altitude (m)
-k = 0.07           # spring constant
-b = 0.03          # damping coefficient
+k = 0.15           # spring constant
+b = 0.035         # damping coefficient
 mass = 0.035       # effective mass (kg)
 l = 1.5            # rest length of springs (m)
 center = (2.05, 2.4)
@@ -28,6 +28,7 @@ center = (2.05, 2.4)
 # Which drones are connected in the square + diagonals
 connections = {0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2]}
 diag       = {0: [2],    1: [3],    2: [0],    3: [1]}
+fixed_points={0:(center[0]-l,center[1]-l), 1:(center[0]+l,center[1]-l), 2:(center[0]+l,center[1]+l), 3:(center[0]-l, center[1]+l)}
 
 def get_position_and_velocity(cf):
     """Grab one Kalman sample of X,Y and PX,PY."""
@@ -60,6 +61,13 @@ def spring_force(positions, idx):
         dist = np.linalg.norm(dvec)
         if dist > 1e-6:
             F += k * (dist - l*np.sqrt(2)) * (dvec / dist)
+
+    # Fixed Point
+    dvec=np.array(fixed_points[idx])-p0
+    dist=np.linalg.norm(dvec)
+    if dist>1e-6:
+        F+= k * (dist- l/np.sqrt(2)) * (dvec/dist)
+
     return F
 
 def spring_worker(scf: SyncCrazyflie, swarm: Swarm):
